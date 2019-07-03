@@ -1,11 +1,4 @@
-#include "system.h"
-#include "shell.h"
-#include "stdio.h"
-#include "stm32f4xx_gpio.h"
-#include "ff.h"
-#include "string.h"
-#include "wav.h"
-#include "player.h"
+
 #include <includes.h>
 
 

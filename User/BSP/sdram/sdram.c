@@ -1,10 +1,4 @@
-#include "sdram.h"
-#include "stdint.h"
-#include "stm32f4xx_gpio.h"
-#include "stm32f4xx_rcc.h"
-#include "stm32f4xx_fmc.h"
-#include "stdio.h"
-
+#include <includes.h>
 
 
 static void SDRAM_delay(__IO uint32_t nCount)

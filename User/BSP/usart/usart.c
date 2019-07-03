@@ -1,10 +1,4 @@
-#include "usart.h"
-#include "misc.h"
-#include "stm32f4xx_gpio.h"
-#include "stm32f4xx_rcc.h"
-#include "stm32f4xx_dma.h"
-#include "stdio.h"
-#include "shell.h"
+#include <includes.h>
 
 #define CMD_BUFFER_SZIE 128
 

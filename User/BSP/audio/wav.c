@@ -1,8 +1,4 @@
-#include "wav.h"
-#include "ff.h"
-#include "sdram.h"
-#include "stdio.h"
-#include "string.h"
+#include <includes.h>
 
 
 #define LOAD_WAV_START_ADDR (char *)SDRAM_BANK_ADDR

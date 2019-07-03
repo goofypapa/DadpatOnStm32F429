@@ -251,11 +251,17 @@ void  BSP_Init (void)
 	
 	//----------------------
 	//		led
-	LED_GPIO_Config ();  
+	LED_Init();  
+	
+	//----------------------
+	//		PIEZOELECTRIC_ELEMENT
+	PIEZOELECTRIC_ELEMENT_Init();
 	
 	//----------------------
 	//		sdram
 	SDRAM_Init();
+	
+	//SDRAM_Test();
 	
 	//----------------------
 	//		audio card
@@ -268,6 +274,10 @@ void  BSP_Init (void)
 	//----------------------
 	//		player
 	player_Init();
+	
+	//----------------------
+	//
+	Gating_Membrane_Init();
 	
 	//----------------------
 	//		system

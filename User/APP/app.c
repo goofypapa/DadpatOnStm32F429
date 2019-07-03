@@ -35,8 +35,6 @@
 */
 
 #include <includes.h>
-#include <stdio.h>
-#include "shell.h"
 
 /*
 *********************************************************************************************************
@@ -53,8 +51,8 @@
 static  OS_TCB   AppTaskStartTCB;
 
 static  OS_TCB   AppTaskShellTCB;
-static  OS_TCB   AppTaskLed2TCB;
-static  OS_TCB   AppTaskLed3TCB;
+static  OS_TCB   AppTaskInputTCB;
+static  OS_TCB   AppTaskADCTCB;
 
 
 /*
@@ -65,9 +63,9 @@ static  OS_TCB   AppTaskLed3TCB;
 
 static  CPU_STK  AppTaskStartStk[APP_TASK_START_STK_SIZE];
 
-static  CPU_STK  AppTaskShellStk [ APP_TASK_LED1_STK_SIZE ];
-static  CPU_STK  AppTaskLed2Stk [ APP_TASK_LED2_STK_SIZE ];
-static  CPU_STK  AppTaskLed3Stk [ APP_TASK_LED3_STK_SIZE ];
+static  CPU_STK  AppTaskShellStk [ APP_TASK_Shell_STK_SIZE ];
+static  CPU_STK  AppTaskInputStk [ APP_TASK_Input_STK_SIZE ];
+static  CPU_STK  AppTaskADCStk 		[ APP_TASK_ADC_STK_SIZE ];
 
 
 /*
@@ -79,8 +77,8 @@ static  CPU_STK  AppTaskLed3Stk [ APP_TASK_LED3_STK_SIZE ];
 static  void  AppTaskStart  (void *p_arg);
 
 static  void  AppTaskShell  ( void * p_arg );
-static  void  AppTaskLed2  ( void * p_arg );
-static  void  AppTaskLed3  ( void * p_arg );
+static  void  AppTaskInput  ( void * p_arg );
+static  void  AppTaskADC  ( void * p_arg );
 
 
 /*
@@ -170,38 +168,38 @@ static  void  AppTaskStart (void *p_arg)
                  (CPU_CHAR   *)"App Task Shell",
                  (OS_TASK_PTR ) AppTaskShell,
                  (void       *) 0,
-                 (OS_PRIO     ) APP_TASK_LED1_PRIO,
+                 (OS_PRIO     ) APP_TASK_Shell_PRIO,
                  (CPU_STK    *)&AppTaskShellStk[0],
-                 (CPU_STK_SIZE) APP_TASK_LED1_STK_SIZE / 10,
-                 (CPU_STK_SIZE) APP_TASK_LED1_STK_SIZE,
+                 (CPU_STK_SIZE) APP_TASK_Shell_STK_SIZE / 10,
+                 (CPU_STK_SIZE) APP_TASK_Shell_STK_SIZE,
                  (OS_MSG_QTY  ) 5u,
                  (OS_TICK     ) 0u,
                  (void       *) 0,
                  (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
                  (OS_ERR     *)&err);
 								 
-    OSTaskCreate((OS_TCB     *)&AppTaskLed2TCB,                /* Create the Led2 task                                */
-                 (CPU_CHAR   *)"App Task Led2",
-                 (OS_TASK_PTR ) AppTaskLed2,
+    OSTaskCreate((OS_TCB     *)&AppTaskInputTCB,                /* Create the Led2 task                                */
+                 (CPU_CHAR   *)"App Task Input",
+                 (OS_TASK_PTR ) AppTaskInput,
                  (void       *) 0,
-                 (OS_PRIO     ) APP_TASK_LED2_PRIO,
-                 (CPU_STK    *)&AppTaskLed2Stk[0],
-                 (CPU_STK_SIZE) APP_TASK_LED2_STK_SIZE / 10,
-                 (CPU_STK_SIZE) APP_TASK_LED2_STK_SIZE,
+                 (OS_PRIO     ) APP_TASK_Input_PRIO,
+                 (CPU_STK    *)&AppTaskInputStk[0],
+                 (CPU_STK_SIZE) APP_TASK_Input_STK_SIZE / 10,
+                 (CPU_STK_SIZE) APP_TASK_Input_STK_SIZE,
                  (OS_MSG_QTY  ) 5u,
                  (OS_TICK     ) 0u,
                  (void       *) 0,
                  (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
                  (OS_ERR     *)&err);
 
-    OSTaskCreate((OS_TCB     *)&AppTaskLed3TCB,                /* Create the Led3 task                                */
-                 (CPU_CHAR   *)"App Task Led3",
-                 (OS_TASK_PTR ) AppTaskLed3,
+    OSTaskCreate((OS_TCB     *)&AppTaskADCTCB,                /* Create the Led3 task                                */
+                 (CPU_CHAR   *)"App Task ADC",
+                 (OS_TASK_PTR ) AppTaskADC,
                  (void       *) 0,
-                 (OS_PRIO     ) APP_TASK_LED3_PRIO,
-                 (CPU_STK    *)&AppTaskLed3Stk[0],
-                 (CPU_STK_SIZE) APP_TASK_LED3_STK_SIZE / 10,
-                 (CPU_STK_SIZE) APP_TASK_LED3_STK_SIZE,
+                 (OS_PRIO     ) APP_TASK_ADC_PRIO,
+                 (CPU_STK    *)&AppTaskADCStk[0],
+                 (CPU_STK_SIZE) APP_TASK_ADC_STK_SIZE / 10,
+                 (CPU_STK_SIZE) APP_TASK_ADC_STK_SIZE,
                  (OS_MSG_QTY  ) 5u,
                  (OS_TICK     ) 0u,
                  (void       *) 0,
@@ -239,16 +237,57 @@ static  void  AppTaskShell ( void * p_arg )
 *********************************************************************************************************
 */
 
-static  void  AppTaskLed2 ( void * p_arg )
+static uint8_t Button_Order_Table[] = {
+//		0,  1,	 2,  3, 	4, 	5, 	6, 	7, 	8, 	9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+//		0,  4,   2, 19, 	17, 11, 15, 6, 10, 14, 12, 20, 	1, 	9, 	7, 	3, 	5, 13, 	8, 16, 18
+//	
+		0, 12, 	2,  15,  1, 	16,	7,	14,	18,	13, 8,	5,	10,	17,	9,	6,	19,	4,	20,	3,	11
+};
+
+static  void  AppTaskInput ( void * p_arg )
 {
     OS_ERR      err;
-
-
    (void)p_arg;
 	
-    while (DEF_TRUE) {                                          /* Task body, always written as an infinite loop.       */
-			LED2_TOGGLE;
-			OSTimeDly ( 1000, OS_OPT_TIME_DLY, & err );
+		uint8_t t_input_states[21] = {0};
+		uint8_t * t_read_input_states;
+		uint8_t i, tmp;
+		
+		uint8_t t_on_button_list[21] = {0};
+		uint8_t t_off_button_list[21] = {0};
+		
+		uint8_t t_on_button_list_length = 0;
+		uint8_t t_off_button_list_length = 0;
+		
+		mode_djembe_init();
+		
+    while (DEF_TRUE) 
+		{
+				read_all_input_state( &t_read_input_states );
+				for( i = 0; i < 21; ++i )
+				{
+						tmp = t_read_input_states[i];
+						if( tmp != t_input_states[i] )
+						{
+								if( tmp )
+								{
+										t_on_button_list[ t_on_button_list_length++ ] = Button_Order_Table[ i ];
+								}else{
+										t_off_button_list[ t_off_button_list_length++ ] = Button_Order_Table[ i ];
+								}
+								t_input_states[i] = tmp;
+						}
+				}
+				
+				if( mode_app_tick != NULL )
+				{
+						mode_app_tick( t_on_button_list, t_on_button_list_length, t_off_button_list, t_off_button_list_length );
+				}
+				
+				t_on_button_list_length = 0;
+				t_off_button_list_length = 0;
+			
+				OSTimeDly ( 1, OS_OPT_TIME_DLY, & err );
     }
 		
 		
@@ -257,21 +296,28 @@ static  void  AppTaskLed2 ( void * p_arg )
 
 /*
 *********************************************************************************************************
-*                                          LED3 TASK
+*                                          ADC TASK
 *********************************************************************************************************
 */
 
-static  void  AppTaskLed3 ( void * p_arg )
+static  void  AppTaskADC ( void * p_arg )
 {
     OS_ERR      err;
 
 
    (void)p_arg;
-
+		uint8_t i;
 
     while (DEF_TRUE) {                                          /* Task body, always written as an infinite loop.       */
-			LED3_TOGGLE;
-			OSTimeDly ( 5000, OS_OPT_TIME_DLY, & err );
+				
+				PCS_Data_Offset = ( PCS_Data_Offset + 1 ) % PCS_DATA_SIZE;
+				
+				for( i = 0; i < 4; ++i )
+				{
+						PCS_Data[i][ PCS_Data_Offset ] = ADC_ConvertedValue[i];
+				}
+			
+				OSTimeDly ( 1, OS_OPT_TIME_DLY, & err );
     }
 		
 		

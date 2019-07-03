@@ -1,18 +1,12 @@
-#include "player.h"
-#include <stdint.h>
-#include "stm32f4xx_tim.h"
-#include <stdio.h>
-#include "wav.h"
 #include "bsp_wm8978.h"
-#include <string.h>
-#include <stdlib.h>
+#include <includes.h>
 
 
 #define PLAYER_AUDIO_BUFF_SIZE  		5
 
 #define PLAYER_POOL_SIZE						32
-#define PLAYING_AUDIO_BGM_MAX				2
-#define PLAYING_AUDIO_EFFECT_MAX		5
+#define PLAYING_AUDIO_BGM_MAX				8
+#define PLAYING_AUDIO_EFFECT_MAX		16
 
 uint16_t 	playerAudioBuffA[PLAYER_AUDIO_BUFF_SIZE], 
 					playerAudioBuffB[PLAYER_AUDIO_BUFF_SIZE];
@@ -154,9 +148,9 @@ void mixer( int16_t * p_inout, const int16_t * p_in )
 {
 		uint16_t i;
 		for( i = 0; i < PLAYER_AUDIO_BUFF_SIZE; ++i )
-		{
-				p_inout[i] = p_inout[i] * ( (float)INT16_MAX - abs( p_in[i] ) ) / INT16_MAX + 
-										 p_in[i] * ( (float)INT16_MAX - abs( p_inout[i] ) ) / INT16_MAX;
+		{				
+				p_inout[i] = p_inout[i] * ( INT16_MAX - abs( p_in[i] ) ) / INT16_MAX + 
+										 p_in[i] * ( INT16_MAX - abs( p_inout[i] ) ) / INT16_MAX;
 				
 		}
 }

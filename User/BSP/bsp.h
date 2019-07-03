@@ -73,15 +73,19 @@
 #include  <lib_ascii.h>
 
 
-#include "stm32f4xx.h"
+#include <stm32f4xx.h>
 
-#include "bsp_led.h" 
-#include "usart.h"
-#include "system.h"
-#include "sdram.h"
-#include "ff.h"
-#include "bsp_wm8978.h"
-#include "player.h"
+#include <led.h>
+#include <usart.h>
+#include <system.h>
+#include <sdram.h>
+#include <ff.h>
+#include <bsp_wm8978.h>
+#include <player.h>
+#include <shell.h>
+#include <gating_membrane.h>
+#include <piezoelectric_element.h>
+#include <nfc.h>
 
 
 /*

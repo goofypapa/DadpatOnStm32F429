@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F429_439xx,USE_STDPERIPH_DRIVER,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS\Include;..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\User;..\..\User\APP;..\..\User\BSP;..\..\User\BSP\led;..\..\User\uC-CPU;..\..\User\uC-CPU\ARM-Cortex-M4\RealView;..\..\User\uC-LIB;..\..\User\uCOS-III\Source;..\..\User\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView;..\..\User\BSP\usart;..\..\User\BSP\shell;..\..\User\BSP\system;..\..\User\BSP\sdram;..\..\User\BSP\sdio;..\..\User\BSP\FATFS;..\..\User\BSP\audio</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS\Include;..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\User;..\..\User\APP;..\..\User\BSP;..\..\User\BSP\led;..\..\User\uC-CPU;..\..\User\uC-CPU\ARM-Cortex-M4\RealView;..\..\User\uC-LIB;..\..\User\uCOS-III\Source;..\..\User\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView;..\..\User\BSP\usart;..\..\User\BSP\shell;..\..\User\BSP\system;..\..\User\BSP\sdram;..\..\User\BSP\sdio;..\..\User\BSP\FATFS;..\..\User\BSP\audio;..\..\User\BSP\input</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -723,6 +723,16 @@
               <FileType>5</FileType>
               <FilePath>..\..\User\APP\os_cfg_app.h</FilePath>
             </File>
+            <File>
+              <FileName>mode_manager.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\APP\mode_manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>djembe_mode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\APP\djembe_mode.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -742,11 +752,6 @@
               <FileName>bsp.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\User\BSP\bsp.h</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\BSP\led\bsp_led.c</FilePath>
             </File>
             <File>
               <FileName>usart.c</FileName>
@@ -797,6 +802,26 @@
               <FileName>player.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\BSP\audio\player.c</FilePath>
+            </File>
+            <File>
+              <FileName>gating_membrane.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\BSP\input\gating_membrane.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\BSP\led\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>piezoelectric_element.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\BSP\input\piezoelectric_element.c</FilePath>
+            </File>
+            <File>
+              <FileName>nfc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\BSP\input\nfc.c</FilePath>
             </File>
           </Files>
         </Group>
