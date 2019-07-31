@@ -17,7 +17,7 @@ static void SDRAM_GPIO_Config( void )
                          FMC_A3_GPIO_CLK | FMC_A4_GPIO_CLK | FMC_A5_GPIO_CLK |
                          FMC_A6_GPIO_CLK | FMC_A7_GPIO_CLK | FMC_A8_GPIO_CLK |
                          FMC_A9_GPIO_CLK | FMC_A10_GPIO_CLK| FMC_A11_GPIO_CLK| 
-												 FMC_BA0_GPIO_CLK| FMC_BA1_GPIO_CLK|
+												 FMC_A12_GPIO_CLK| FMC_BA0_GPIO_CLK| FMC_BA1_GPIO_CLK|
                          FMC_D0_GPIO_CLK | FMC_D1_GPIO_CLK | FMC_D2_GPIO_CLK | 
                          FMC_D3_GPIO_CLK | FMC_D4_GPIO_CLK | FMC_D5_GPIO_CLK |
                          FMC_D6_GPIO_CLK | FMC_D7_GPIO_CLK | FMC_D8_GPIO_CLK |
@@ -81,6 +81,9 @@ static void SDRAM_GPIO_Config( void )
 		GPIO_Init(FMC_A11_GPIO_PORT, &GPIO_InitStructure);
 		GPIO_PinAFConfig(FMC_A11_GPIO_PORT, FMC_A11_PINSOURCE , FMC_A11_AF);
 		
+		GPIO_InitStructure.GPIO_Pin = FMC_A12_GPIO_PIN; 
+		GPIO_Init(FMC_A12_GPIO_PORT, &GPIO_InitStructure);
+		GPIO_PinAFConfig(FMC_A12_GPIO_PORT, FMC_A12_PINSOURCE , FMC_A12_AF);
 		
 		GPIO_InitStructure.GPIO_Pin = FMC_BA0_GPIO_PIN; 
 		GPIO_Init(FMC_BA0_GPIO_PORT, &GPIO_InitStructure);
@@ -281,8 +284,8 @@ void SDRAM_Init(void)
 		FMC_SDRAMTimingInitStructure.FMC_RCDDelay             = 2;
 		
 		FMC_SDRAMInitStructure.FMC_Bank = FMC_BANK_SDRAM;
-		FMC_SDRAMInitStructure.FMC_ColumnBitsNumber = FMC_ColumnBits_Number_8b;
-		FMC_SDRAMInitStructure.FMC_RowBitsNumber = FMC_RowBits_Number_12b;
+		FMC_SDRAMInitStructure.FMC_ColumnBitsNumber = FMC_ColumnBits_Number_9b;
+		FMC_SDRAMInitStructure.FMC_RowBitsNumber = FMC_RowBits_Number_13b;
 		FMC_SDRAMInitStructure.FMC_SDMemoryDataWidth = SDRAM_MEMORY_WIDTH; 
 		FMC_SDRAMInitStructure.FMC_InternalBankNumber = FMC_InternalBank_Number_4;
 		FMC_SDRAMInitStructure.FMC_CASLatency = SDRAM_CAS_LATENCY; 
@@ -358,7 +361,7 @@ uint8_t SDRAM_Test(void)
     
     if(ubReaddata_8b != (uint8_t)(ubWritedata_8b + counter)) 
     {
-      SDRAM_ERROR("8 bit mode final!");
+      SDRAM_ERROR("8 bit mode test final!");
       return 0;
     }
   }
@@ -379,7 +382,7 @@ uint8_t SDRAM_Test(void)
     
     if(uhReaddata_16b != (uint16_t)(uhWritedata_16b + counter))
     {
-      SDRAM_ERROR("16 bit mode final!");
+      SDRAM_ERROR("16 bit mode test final!");
       return 0;
     }
   }

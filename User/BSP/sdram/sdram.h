@@ -3,7 +3,7 @@
 
 #include "stdint.h"
 
-#define IS42S16400J_SIZE 					0x800000
+#define IS42S16400J_SIZE 					0x2000000
 
 #define FMC_BANK_SDRAM            FMC_Bank2_SDRAM  
 #define FMC_COMMAND_TARGET_BANK   FMC_Command_Target_bank2
@@ -101,6 +101,11 @@
 #define FMC_A11_PINSOURCE        GPIO_PinSource1
 #define FMC_A11_AF               GPIO_AF_FMC
 
+#define FMC_A12_GPIO_PORT        GPIOG
+#define FMC_A12_GPIO_CLK         RCC_AHB1Periph_GPIOG
+#define FMC_A12_GPIO_PIN         GPIO_Pin_2
+#define FMC_A12_PINSOURCE        GPIO_PinSource2
+#define FMC_A12_AF               GPIO_AF_FMC
 
 #define FMC_BA0_GPIO_PORT        GPIOG
 #define FMC_BA0_GPIO_CLK         RCC_AHB1Periph_GPIOG

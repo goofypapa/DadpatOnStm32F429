@@ -249,6 +249,8 @@ void  BSP_Init (void)
 	//		usart
 	Debug_USART_Config();
 	
+	printf( "---------->>>> \r\n" );
+	
 	//----------------------
 	//		led
 	LED_Init();  

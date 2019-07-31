@@ -460,10 +460,11 @@ ARM Macro Assembler    Page 8
 
 
 erwork --depend=.\output\cpu_a.d -o.\output\cpu_a.o -I.\RTE\_STM32F429 -IC:\Use
-rs\cc\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST
-\STM32F4xx\Include -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__MICROLIB SETA 
-1" --predefine="__UVISION_VERSION SETA 527" --predefine="STM32F429xx SETA 1" --
-list=.\listing\cpu_a.lst ..\..\User\uC-CPU\ARM-Cortex-M4\RealView\cpu_a.asm
+rs\Administrator\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSI
+S\Device\ST\STM32F4xx\Include -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__MIC
+ROLIB SETA 1" --predefine="__UVISION_VERSION SETA 528" --predefine="STM32F429xx
+ SETA 1" --list=.\listing\cpu_a.lst ..\..\User\uC-CPU\ARM-Cortex-M4\RealView\cp
+u_a.asm
 
 
 
